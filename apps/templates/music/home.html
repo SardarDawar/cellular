@@ -1,0 +1,427 @@
+{% extends 'Base.html' %}
+{% load static humanize FindSubUser %}
+{% block title %} Accounts {% endblock %}
+
+
+
+{% block register %}
+
+{% if request.user.is_authenticated  %}
+<div class="register-login-area">
+
+
+
+
+    <a href="{% url 'profile' request.user.username  %}" class="btn">{{ request.user.username }}</a>
+    <a href="{% url 'logout' %}" class="btn">logout</a>
+
+</div>
+{% else %}
+<div class="register-login-area">
+    <a href="{% url 'register' %}" class="btn">Register</a>
+    <a href="{% url 'login' %}" class="btn">Login</a>
+</div>
+{% endif %}
+{% endblock  %}
+
+
+
+
+
+{% block content %}
+<style>
+@import compass;
+
+.product
+  { position: relative;
+   text-align: center}
+
+.br-0{
+    border-radius: 0px !important;
+}
+
+.promotion
+{   
+   top: 5px;
+   display: block;
+   padding: 1.5% 1.8% ;
+   padding-top: 10px;
+   margin-top: 10px;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border-radius: 60%;
+   width: 270px;
+   height: 270px;
+   background: rgb(129, 105, 105)}
+
+em, strong 
+{   
+   font-size: 1.3em;}
+
+  </style>
+
+
+
+
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+    }
+   
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  border-radius: 50% !important;
+}
+
+.flip-card-inner {
+  
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  background-color: transparent;
+  border-radius: 50% !important;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: transparent;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: #2980b9;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.modal-dialog{
+    max-width: 800px !important;
+}
+
+    </style>
+
+
+
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add plan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+        
+                <div class="card-body">
+    
+                    {% if form.errors %}
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <h5 class="alert-heading">{{ field.label }}</h5>
+                        <hr>
+                        <p class="mb-0">{{ error|escape }}</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Plan Name</label>
+                                <input type="text" name="plan_name" maxlength="150" class="form-control" {% if form.plan_name.value %} value="{{ form.plan_name.value}}" {% endif %} >
+                            </div>
+
+                            <div class="form-group">
+                                <label>Category</label>
+                                {{  form.category }}
+                            </div>
+                            <div class="form-group">
+                                <label>Family Name</label>
+                                <input type="text" name="family_name" maxlength="150" class="form-control" required="" {% if form.family_name.value %} value="{{ form.family_name.value}}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-5">
+
+                            <div class="form-group">
+                                <label>Total Fixed Slots</label>
+                                <input type="number" name="total_slots" maxlength="150" class="form-control" {% if form.total_slots.value %} value="{{ form.total_slots.value}}" {% endif %}
+                                    required="">
+                            </div>
+                            <div class="form-group">
+                                <label>Monthly Payment Date</label>
+                                <input type="number" name="monthly_payment_date" maxlength="150" class="form-control"  {% if form.monthly_payment_date.value %} value="{{ form.monthly_payment_date.value}}" {% endif %}
+                                    required="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label>Current Monthly Payment Per line</label>
+                                <input type="number" name="currently_monthly_payment_per_line" maxlength="150"  {% if form.currently_monthly_payment_per_line.value %} value="{{ form.currently_monthly_payment_per_line.value}}" {% endif %}
+                                    class="form-control" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Plan Link</label>
+                                <input type="text" name="linkWeb" {% if form.linkWeb.value %}value="{{ form.linkWeb }}"{% endif %}
+                                    maxlength="150" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Additional Notes</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  
+                                    name="notes">{% if form.notes.value %}{{ form.notes.value}}{% endif %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        <br>
+                        <input type="submit" class="btn btn-primary" value="Save">
+
+
+
+                </div>
+        
+        
+        
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ##### Hero Area Start ##### -->
+<section class="hero-area bg-img bg-overlay-2by5" style="background-image: url( '{% static "music/bg-img/bg1.jpg" %}' );">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <!-- Hero Content -->
+                <div class="hero-content text-center">
+
+                    {% if request.user.is_authenticated  %}
+                    <h2>Let's Manage Together</h2>
+                    {% else %}
+                    <h2>Let's Manage Together</h2>
+                    <a href="{% url 'login' %}" class="btn clever-btn .br-0">Get Started</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### Hero Area End ##### -->
+
+
+
+
+<div class="mx-auto" style="width:900px;">
+    <div class="card mt-5 border-0" style="width: 60rem; box-shadow: none !important;">
+        <div class="card-body">
+            <form action="{% url 'Calculator' %}" method="POST" id="calculatorForm">
+              {% csrf_token %}
+              <div class="row">
+                  <div class="col ml-3">
+                      <div class="row">
+                          <h5 class="card-title">Current Carrier</h5>
+                      </div>
+                      <div class="row">
+                          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-outline-secondary active mr-2">
+                                <input type="radio" name="options" id="option1" value="option1" data-url="3210"> Verizon
+                                
+                              </label>
+                              <label class="btn btn-outline-secondary mr-2">
+                                <input type="radio" name="options" id="option2" value="option2" data-url="321"> AT & T
+                                
+                              </label>
+                              <label class="btn btn-outline-secondary">
+                                <input type="radio" name="options" id="option3" value="option3" data-url="231"> Other
+                              
+                              </label>
+                            </div>
+                          
+                      </div>
+  
+                      <div class="row">
+                          <h5 class="card-title">Number of users on the account</h5>
+                      </div>
+                      <div class="row">
+                          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-outline-secondary active mr-2">
+                                <input type="radio" name="options" id="option1"> 1
+                              </label>
+                              <label class="btn btn-outline-secondary mr-2">
+                                <input type="radio" name="options" id="option2"> 2                                
+                              </label>
+                              <label class="btn btn-outline-secondary mr-2">
+                                <input type="radio" name="options" id="option3"> 3
+                              </label>
+                              <label class="btn btn-outline-secondary">
+                                  <input type="radio" name="options" id="option3"> 4
+                                </label>
+                            </div>
+                          
+                      </div>
+                      <div class="row mt-2">
+                          <h5 class="card-title">Total Plan Cost (US Dollars)</h5>
+                      </div>
+                      <div class="row mt-1">
+                          <div class="col-md-5 pl-5">
+                            <input type="number" class="form-control" >
+                          </div>
+                  </div>
+                  
+                  </div>
+                  <div class="col">
+                    <div class="row pt-0">
+                      <div class="card bg-success text-white font-weight-bold text-center pt-0 mt-0" style="width:300px !important; height: 300px !important; border-radius: 50% !important; margin-top: 0 !important; margin-bottom: 0px !important;">
+                        <div class="card-body mt-5 text-center" >
+                          <h4 class="card-title text-white mb-5">Savings</h4>
+                          <h4 class="card-title text-white"> $21231321/yr</h4>
+                         
+                        </div>
+                          
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="dropdown ml-5 mb-3">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter Results
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width:200px !important;">
+    <form class="px-1 py-1" action="." method="GET">
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Based on Category</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="category" onchange="this.form.submit();" >
+          <option vaule="None" >None</option>
+          <option vaule="All" >All</option>
+          {% for category in filters %}
+          
+            <option vaule="{{ category.Name }}" >{{ category.Name }}</option>
+          {% endfor %}
+          
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{%  if  categories %}
+
+  <div class="product">
+      <div class="row ml-2 p-5 m-0">
+        
+    {% for i in categories  %}
+    
+        <a href="#" class="list-group-item list-group-item-action mb-2 ml-4 font-weight-bold p-2 text-left border-0 pl-5 ml-5 mb-5 mt-5" title="Category : {{ i.Name }}" style="max-width: 80% !important; font-size: 25px;">{{ i.Name }}</a>
+        <div class="col-md-4">
+            <div class="card bg-info text-white font-weight-bold text-center pt-0 mb-2" style="width:300px !important; height: 300px !important; border-radius: 50% !important;">
+                <div class="card-body mt-5 text-center" >
+                <h4 class="card-title text-white mb-5"></h4>
+                <button href="{% url 'planform' %}" class="btn btn-secondary stretched-link" data-toggle="modal" data-target="#exampleModal">Add a plan</button>
+                </div>
+            </div>
+        </div>
+        {% for j in i.get_plans %}   
+        <div class="col-md-4 mb-4">
+            <div class="flip-card bg-transparent">
+                <div class="flip-card-inner bg-transparent">
+                <div class="flip-card-front {% if request.user.is_authenticated %} {% if request.user|FindSubUser:j.id %} bg-warning {% else %} {% if j.get_available_status %} bg-success {% else %} bg-danger {% endif %}{% endif %} {% else %} {% if j.get_available_status %} bg-success {% else %} bg-danger {% endif %} {% endif %}text-white font-weight-bold text-center pt-0" style="width:300px !important; height: 300px !important; border-radius: 50% !important;">
+                    <h6 class="card-title text-white" style="margin-top: 50%; margin-bottom: 50%;">Plan Name: {{ j.plan_name }}</h6> 
+                </div>
+                <div class="flip-card-back {% if request.user.is_authenticated %} {% if request.user|FindSubUser:j.id %} bg-warning {% else %} {% if j.get_available_status %} bg-success {% else %} bg-danger {% endif %}{% endif %} {% else %} {% if j.get_available_status %} bg-success {% else %} bg-danger {% endif %} {% endif %} text-white font-weight-bold text-center pt-0" style="width:300px !important; height: 300px !important; border-radius: 50% !important;">
+                    <h6 class="card-title text-white" style="margin-top: 25%;">Plan Name: {{ j.plan_name }}</h6>
+                    <h6 class="card-title text-white">Family Name:  {{ j.family_name }}</h6>
+                    <h6 class="card-title text-white">Number of Available Slots: {{ j.number_of_open_slots }}</h6>
+                    <h6 class="card-title text-white">Monthly Payment Date: {{ j.monthly_payment_date }}</h6>
+                    <h6 class="card-title text-white">Monthly Cost: ${{ j.currently_monthly_payment_per_line|intcomma }}</h6>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user|FindSubUser:j.id %}
+                            <a href="#" class="btn btn-secondary stretched-link mr-0">Joined</a>
+                        {% else %}
+                            {% if j.get_available_status %} 
+                                <a href="{% url 'Join' i.id j.id %}"  class="btn btn-secondary alert-link mr-0">Join</a>
+                            {% else %}
+                                <a href="#" class="btn btn-secondary stretched-link mr-0">Full</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if j.get_available_status %} 
+                            <a href="{% url 'Join' i.id j.id %}"  class="btn btn-secondary alert-link mr-0">Join</a>
+                        {% else %}
+                            <a href="#" class="btn btn-secondary stretched-link mr-0">Full</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    
+    {% endfor %}
+
+</div>
+ </div>
+
+
+ 
+ {% endif %}
+
+
+
+
+
+
+
+        {% endblock content %}

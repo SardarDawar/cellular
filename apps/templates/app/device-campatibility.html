@@ -1,0 +1,250 @@
+{% extends 'Base.html' %}
+{% block title %} Device Campatibility {% endblock %}
+{% block content %}
+
+<div class="mx-auto" style="width:900px;">
+    <div class="card border-0" style="width:60rem; margin-bottom: 10px !important; box-shadow: none !important;">
+        {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success mt-5 ml-5 mr-5" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            <h4 class="alert-heading">Info</h4>
+            <hr>
+            <p class="mb-0">{{ message }}</p>
+            
+        </div>
+    {% endfor %}
+    {% endif %}
+        <div class="card-body">
+                <h5 class="font-weight-normal mb-3">Select an option below</h5>
+                <ul class="nav nav-tabs border-0" id="myTab" role="tablist" >
+                    <li class="nav-item" style="width:250px !important;">
+                        <button class="btn btn-outline-danger active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" style="width:220px !important;"> New to Verizon</button>
+                        
+                    </li>
+                    <li class="nav-item" style="width:250px !important;">
+                        <button class="btn btn-outline-danger" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"  style="width:220px !important;"> Existing Verizon Customer</button>
+                      
+                    </li>
+                    <li class="nav-item" style="width:250px !important;">
+                        <button class="btn btn-outline-danger"  id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"  style="width:220px !important;"> Switching Carrier</button>
+                      
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="card-body mt-3 mb-5" >
+                            <p class="card-text">Ensure that your device is campatible with Verizon by going to <a href="https://www.verizonwireless.com/onedp/byod#/deviceType">https://www.verizonwireless.com/onedp/byod#/deviceType</a></p>
+                            <p class="card-text">For T-mobile - <a href="https://www.t-mobile.com/resources/bring-your-own-phone">https://www.t-mobile.com/resources/bring-your-own-phone</a></p>
+                            <p class="card-title">AT&T - </p>
+                            <p class="card-title">Was your Device Campatible</p>
+                            <ul class="nav nav-tabs border-0" id="myTab_2" role="tablist">
+                                <li class="nav-item" style="width:250px !important;">
+                                  
+                                    <button class="btn btn-outline-danger active" id="home-tab-2" data-toggle="tab" href="#home-2" role="tab" aria-controls="home-2" aria-selected="true" style="width:220px !important;"> Yes</button>
+                                    
+                                </li>
+                                <li class="nav-item" style="width:250px !important;">
+                                    <button class="btn btn-outline-danger" id="profile-tab-2" data-toggle="tab" href="#profile-2" role="tab" aria-controls="profile-2" aria-selected="false" style="width:220px !important;"> No</button>
+                                </li>
+                            
+                              </ul>
+                              <div class="tab-content" id="myTab_2Content">
+                                <div class="tab-pane fade show active" id="home-2" role="tabpanel" aria-labelledby="home-tab-2">
+
+                                    <div class="card p-3" style="width:29.5rem; margin-top: 10px !important;">
+                                        <p class="card-title"> Great! Please complete payment and your Account Owner will provision your acccount. You'll receive your new sim and number.</p>
+                                        <form action="{% url 'Reservation' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label">Total</label>
+                                                <div class="col-sm-10">
+                                                    <label for="inputEmail3" class="col-form-label"><strike>$1123</strike>(per month)</label>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label text-success">Total</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control bg-tranparent text-success border-0" id="inputPassword3" value="$39.98">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
+                                                <div class="col-sm-10">
+                                                  <input type="text" class="form-control col-sm-10 border-bottom-dark border-top-0 border-right-0 border-left-0 pr-0" id="inputEmail3" placeholder="Card Number                             MM/YY">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                                    By Confirming below, you acknowlegde that payments will continue to recur until you cancel your reservation on the My Rentals page.
+                                                </label>
+                                              </div>
+                                              <div class="form-group row">
+                                                <div class="col" style="margin-left: 9rem;">
+                                                <button type="submit" class="btn btn-primary" >Confirm Reservation</button>
+                                                </div>  
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                                    Payment won't be processed until your line is activated.
+                                                </label>
+                                              </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-2" role="tabpanel" aria-labelledby="profile-tab-2">
+                                    <div class="card" style="width:29.5rem;margin-top: 10px !important;">
+                                        <div class="card-body">
+                                                <p class="card-text text-danger">
+                                                        You will need a compatible phone before to be abel to use Verizons Network. Please contact if you need assistance.
+
+                                                </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+
+                              </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card" style="margin-top: 10px !important; width:29.8rem;">
+                            <div class="card-body">
+                                <form action="{% url 'Reservation' %}" method="POST">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                         <textarea></textarea>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                          <input type="text" class="form-control col-sm-10 border-bottom-dark border-top-0 border-right-0 border-left-0 pr-0" id="inputEmail3" placeholder="Card Number                             MM/YY">
+                                        </div>
+                                      </div>
+                                      <div class="form-group row">
+                                        <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                            By Confirming below, you acknowlegde that payments will continue to recur until you cancel your reservation on the My Rentals page.
+                                        </label>
+                                      </div>
+                                      <div class="form-group row">
+                                        <div class="col" style="margin-left: 9rem;">
+                                        <button type="submit" class="btn btn-primary" >Confirm Reservation</button>
+                                        </div>  
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                            Payment won't be processed until your line is activated.
+                                        </label>
+                                      </div>
+                                </form>
+                            </div>
+                            <p class="card-text pl-2">
+                                    Welcome to the circle! Please follow the steps below to transfer your Verizon account over to ours.
+                            </p>
+                            <p class="card-text pl-2">
+                                <a href="https://www.verizonwireless.com/support/transfer-your-service-video">https://www.verizonwireless.com/support/transfer-your-service-video</a>
+                            </p>
+                            <p class="card-text pl-2">
+                                <a href="https://www.verizonwireless.com/UFDRender/flows/RelinquishingService">https://www.verizonwireless.com/UFDRender/flows/RelinquishingService</a>
+                            </p>
+                            <p class="card-text pl-2 mb-2">
+                                Questions? Please contact us and we'lll guide you through the process.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="card-body mt-3 mb-5" >
+                            <p class="card-text">Ensure that your device is campatible with Verizon by going to <a href="https://www.verizonwireless.com/onedp/byod#/deviceType">https://www.verizonwireless.com/onedp/byod#/deviceType</a></p>
+                            <p class="card-title">Was your Device Campatible</p>
+                            <ul class="nav nav-tabs border-0" id="myTab_3" role="tablist">
+                                <li class="nav-item" style="width:250px !important;">
+                                  
+                                    <button class="btn btn-outline-danger active" id="home-tab-3" data-toggle="tab" href="#home-3" role="tab" aria-controls="home-3" aria-selected="true" style="width:220px !important;"> Yes</button>
+                                    
+                                </li>
+                                <li class="nav-item" style="width:250px !important;">
+                                    <button class="btn btn-outline-danger" id="profile-tab-3" data-toggle="tab" href="#profile-3" role="tab" aria-controls="profile-3" aria-selected="false" style="width:220px !important;"> No</button>
+                                </li>
+                            
+                              </ul>
+                              <div class="tab-content" id="myTab_3Content">
+                                <div class="tab-pane fade show active" id="home-3" role="tabpanel" aria-labelledby="home-tab-3">
+
+                                    <div class="card p-3" style="width:29.5rem; margin-top: 10px !important;">
+                                        <p class="card-title"> Excellent! Once we receive your payment the account owner will be notified and will reach out to you help you switch over. In the mean while please have your mobile account number and pin ready for the transition</p>
+                                        <form action="{% url 'Reservation' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-form-label">Do you want to keep your existing Number?</label>
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                    <label class="btn btn-outline-danger active mr-2" style="width:200px !important;">
+                                                      <input type="radio" name="options" id="option1"  style="width:220px !important;"> Yes
+                                                    </label>
+                                                    <label class="btn btn-outline-danger" style="width:200px !important;">
+                                                      <input type="radio" name="options" id="option2" style="width:220px !important;"> No
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label">Total</label>
+                                                <div class="col-sm-10">
+                                                    <label for="inputEmail3" class="col-form-label"><strike>$1123</strike>(per month)</label>
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label text-success">Total</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control bg-tranparent text-success border-0" id="inputPassword3" value="$39.98">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
+                                                <div class="col-sm-10">
+                                                  <input type="text" class="form-control col-sm-10 border-bottom-dark border-top-0 border-right-0 border-left-0 pr-0" id="inputEmail3" placeholder="Card Number                             MM/YY">
+                                                </div>
+                                              </div>
+                                              <div class="form-group row">
+                                                <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                                    By Confirming below, you acknowlegde that payments will continue to recur until you cancel your reservation on the My Rentals page.
+                                                </label>
+                                              </div>
+                                              <div class="form-group row">
+                                                <div class="col" style="margin-left: 9rem;">
+                                                <button type="submit" class="btn btn-primary" >Confirm Reservation</button>
+                                                </div>  
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-form-label text-center pl-5 pr-5">
+                                                    Payment won't be processed until your line is activated.
+                                                </label>
+                                              </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-3" role="tabpanel" aria-labelledby="profile-tab-3">
+                                    <div class="card" style="width:29.5rem;margin-top: 10px !important;">
+                                        <div class="card-body">
+                                                <p class="card-text text-danger">
+                                                        You will need a compatible phone before to be abel to use Verizons Network. Please contact if you need assistance.
+
+                                                </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+
+                              </div>
+                        </div>
+                    </div>
+                  </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

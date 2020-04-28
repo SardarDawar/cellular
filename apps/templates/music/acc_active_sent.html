@@ -1,0 +1,25 @@
+{% extends "Base.html" %}
+{% load static %}
+{% block title %}Email Verification{% endblock %}
+
+{% block register %}
+<div class="register-login-area">
+                            
+        <a href="{% url 'register' %}" class="btn active">Register</a>
+        <a href="{% url 'login' %}" class="btn">Login</a>
+    
+    </div>
+{% endblock  %}
+
+
+
+{% block content %}
+    <link rel="stylesheet" type = "text/css" href="{% static 'music/css/StyleSheet3.css' %}">
+
+    <div class="container" style="margin-top: 150px;">
+      <div class="alert alert-info">
+        <strong><h1>Email Verification</h1></strong><p>Please confirm your email address to complete the registration. </p>
+      </div>
+      
+    </div>
+{% endblock content %}

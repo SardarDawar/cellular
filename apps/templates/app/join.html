@@ -1,0 +1,159 @@
+{% extends 'Base.html' %}
+{% load humanize %}
+
+{% block title %} Join a Plan {% endblock %}
+
+
+{% block content %}
+
+<div class="mx-auto" style="width:1200px;">
+  <div class="col">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card mt-5 mb-5" style="width:38rem;">
+          <div class="card-body">
+              <p class="card-text font-weight-normal">Family Live Since : {{ plan.created }}</p>
+              <p class="card-title font-weight-bold" id="payment" style="font-size: 20px;" data="{{ plan.currently_monthly_payment_per_line }}">${{ plan.currently_monthly_payment_per_line|intcomma }}</p>
+              {% if plan.linkWeb %}
+                  <p class="card-text">Please visit : <a href="{{ plan.linkWeb }}">{{ plan.linkWeb }}</a> for full details</p>
+              {% endif %}
+            
+  
+         
+  
+          <div class="col mb-2">
+              <div class="row mb-2">
+                  <div class="col">
+                      <button type="button" class="btn btn-outline-secondary wr-200">Current Family Size : {{ plan.total_slots }}</button>
+                  </div>
+                  <div class="col">
+                      <button type="button" class="btn btn-outline-secondary wr-200">Open Slots: {{ total }} </button>
+                  </div>
+              </div>
+              
+              
+              <div class="row">
+                  <div class="col">
+                      <button type="button" class="btn btn-outline-secondary wr-200">Payment Date: {{ plan.monthly_payment_date }} of each month</button>
+                  </div>
+                  <div class="col">
+                      <button type="button" class="btn btn-outline-secondary wr-200">Contact Support</button>
+                  </div>
+              </div>
+              
+              
+          </div>
+  
+                
+                    <div class="form-group">
+                      <label for="exampleForm" class="font-weight-bold">Ratings</label>
+                      <p class="card-text">
+                          Rating  :   Family Rating 5/5. No Issues. One Time Payment
+                      </p>
+                      
+                    </div>
+  
+                      {% if plan.notes %}
+                    <div class="form-group">
+                      <label for="exampleForm" class="font-weight-bold">Additionnal Notes</label>
+                      <p class="card-text">
+                          {{ plan.notes }}
+                      </p>
+                      
+                    </div>
+                    {% endif %}
+  
+  
+                    {% if plan.get_contact %}
+                    <div class="form-group">
+                      <label for="exampleForm" class="font-weight-bold">Contact Owner</label>
+                      <p class="card-text">
+                          Revealed when you joined in.
+                      </p>
+                      
+                    </div>
+                    {% endif %}
+  
+  
+                    <div class="form-group">
+                      <a  class="btn btn-danger" type="button" href="{% url 'planeditform' plan.id %}">Edit Plan Details</a>
+                      
+                    </div>
+                   
+                    
+              </form>
+          </div>
+      </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mt-5 mb-5" style="width: 30rem;">
+          <div class="card-body">
+              <h5 class="card-title alert-warning p-3">Join : {{ plan.plan_name }}</h5>
+              <p class="card-title font-weight-bold" id="payment" style="font-size: 20px;" data="{{ plan.currently_monthly_payment_per_line }}">${{ plan.currently_monthly_payment_per_line|intcomma }}</p>
+              {% if messages %}
+                  {% for message in messages %}
+                      <div class="alert alert-success" role="alert">
+                          <h4 class="alert-heading">Info</h4>
+                          <hr>
+                          <p class="mb-0">{{ message }}</p>
+                      </div>
+                  {% endfor %}
+              {% endif %}
+  
+              {% if not plan.number_of_open_slots %}
+              
+                  <div class="alert alert-success" role="alert">
+                      <h4 class="alert-heading">No available slot to subscribe</h4>
+                      <hr>
+                      <p class="mb-0">All Slots are used for this plan.</p>
+                  </div>
+              
+          {% endif %}
+  
+              <form action="." method="POST">
+  
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <label for="exampleFormControlSelect1">Number of Slots</label>
+  
+                      <select class="form-control" id="exampleFormControlSelect1" name="number_of_slots" {% if not plan.number_of_open_slots %} disabled {% endif %}>
+                        {% for i in slots %}
+                          <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                      </select>
+                      <small id="emailHelp" class="form-text text-muted">This estimate does not include any fees and taxes that you may incure with the carrier.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleForm">Monthly Estimation</label>
+                      <p class="card-title font-weight-bold">${{ plan.currently_monthly_payment_per_line|intcomma }}pp/month</p>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="exampleForm">Service Fees</label>
+                      <p class="card-title font-weight-bold">This fees allow us to keep the lights on so that we can continue  providing you the savings.</p>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleForm">Total</label>
+                      <p class="card-title font-weight-bold" style="font-size: 20px;" id="total"  data="{{ plan.currently_monthly_payment_per_line }}">${{ plan.currently_monthly_payment_per_line|intcomma }}</p>
+                      <small id="emailHelp" class="form-text text-muted">You'll be billed this amount each month.</small>
+                    </div>
+                  
+  
+                    {% if plan.number_of_open_slots %} 
+                    <div class="form-group">
+                      <button  class="btn btn-danger" type="submit">Join</button>
+                      <small id="emailHelp" class="form-text text-muted">You won't be charged yet.</small>
+                    </div>
+                    {% endif %} 
+              </form>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+    
+</div>
+
+
+{% endblock %}
+

@@ -1,0 +1,311 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Mobiles{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'music/core-img/alum.png' type='image/x-icon' %}">
+    <link rel="stylesheet" href="{% static 'music/css/style1.css' %}">
+    <link rel="stylesheet" href="{% static 'music/css/base_2.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu>.dropdown-menu {
+            top: 10%;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: 0;
+            border-radius: 0.25rem;
+            display: none;
+        }
+
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu>a::after {
+            border-bottom: 0.3em solid transparent;
+            border-left-color: inherit;
+            border-left-style: solid;
+            border-left-width: 0.3em;
+            border-top: 0.3em solid transparent;
+            content: " ";
+            display: block;
+            float: right;
+            height: 0;
+            margin-right: -0.6em;
+            margin-top: -0.95em;
+            width: auto;
+            display: none;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+            display: none;
+        }
+
+        .dropdown-submenu.pull-left>.dropdown-menu {
+            left: -70%;
+        }
+
+        .dropdown-menu .divider {
+            background-color: #e5e5e5;
+            height: 1px;
+            margin: 0px 0;
+            overflow: hidden;
+        }
+
+        .form-control,
+        .btn,
+        .card,
+        .alert {
+            border-radius: 0px !important;
+        }
+
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0px !important;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        input,
+        input:focus,
+        input:active,
+        textarea,
+        textarea:focus,
+        textarea:active,
+        select,
+        select:focus,
+        select:active {
+            outline: none;
+            box-shadow: none !important;
+            border: 1px solid #ced4da !important;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        btn-primary,
+        btn-primary:focus,
+        btn-active:active {
+            outline: none;
+            box-shadow: none !important;
+            border: 1px solid black !important;
+        }
+
+
+        .list-group-item.active {
+            border-color: black !important;
+        }
+
+        .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: 0em;
+    content: "";
+    border-top: none !important ;
+    border-right: 0em solid transparent;
+    border-bottom: 0;
+    border-left: 0em solid transparent;
+}
+        
+    </style>
+</head>
+
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+
+
+        <!-- Top Header Area -->
+
+
+        <!-- Navbar Area -->
+        <div class="clever-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between mb-2 shadow" id="cleverNav">
+
+                    <!-- Logo -->
+                    <a class="nav-brand" href="{% url 'home' %}"><strong>Mobiles</strong></a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- Close Button -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                {% if request.user.is_authenticated %}
+
+                                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Actions
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                      <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a>
+                                      <a class="dropdown-item" href="{% url 'plan' %}">Our Plans</a>
+                                      <a class="dropdown-item" href="{% url 'Plans' %}">My Plans</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="{% url 'search' %}">Search</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="{% url 'Reservation' %}">Confirm Reservation</a>
+                         
+                                    </div>
+                                  </li>
+                                
+                                {% else %}
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+
+                            </ul>
+
+                            <!-- Search Button -->
+                            <div class="search-area">
+                                <form action="{% url 'search' %}" method="GET">
+                                    {% csrf_token %}
+                                    <input type="text" name="query" placeholder="Search">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+
+                            <!-- Register / Login -->
+                            {% block register %}
+
+                            <div class="register-login-area">
+                                {% if request.user.is_authenticated %}
+                                <a href="{% url 'profile' request.user.username  %}"
+                                    class="btn">{{ request.user.username }}</a>
+                                <a href="{% url 'logout' %}" class="btn">logout</a>
+                                {% else %}
+                                <a href="{% url 'register' %}" class="btn">Register</a>
+                                <a href="{% url 'login' %}" class="btn active">Login</a>
+                                {% endif %}
+                            </div>
+                            {%  endblock %}
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+
+    {% block content %}
+
+    {% endblock %}
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="{% static 'music/js/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'music/js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'music/js/bootstrap.min.js' %}"></script>
+    <!-- All Plugins js -->
+    <script src="{% static  'music/js/plugins.js' %}"></script>
+    <!-- Active js -->
+    <script src="{% static 'music/js/active.js' %}"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $(".form-control").css("border-radius", "0px !important");
+            $(".form-control").attr("autocomplete", "off");
+            $(".card").addClass("shadow");
+            $("select").addClass("form-control");
+            $(".mx-auto .card").addClass("mt-5");
+            $(".mx-auto .card").addClass("mb-5");
+            $("label").addClass("font-weight-bold");
+            
+        });
+
+    </script>
+
+    
+<script>
+
+    $(document).ready(function()
+    {
+        // console.log($("number_of_slots").val());
+        $(document).on("change", "#exampleFormControlSelect1", function()
+        {
+            var elem_1 = $(this).children("option:selected").val();
+            var elem_2 = $("#payment").attr("data");
+            var elem_3 = $("#total").attr("data");
+            $("#total").html("$" +  (elem_1 * elem_2));
+        });
+
+            var elem_1 = $("#exampleFormControlSelect1").children("option:selected").val();
+            var elem_2 = $("#payment").attr("data");
+            var elem_3 = $("#total").attr("data");
+            $("#total").html("$" +  (elem_1 * elem_2));
+            if ($("#total").html() == "$NaN")
+            {
+                $("#total").html("$" + "0");
+            }
+
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function()
+    {
+        $(document).on("submit", "#calculatorForm", function(e)
+        {
+            e.preventDefault();
+            var elem = $(this);
+            // console.log(elem.attr("id"));  
+            // console.log(elem.children("div div div div label"));
+        });
+    });
+</script>
+
+
+
+
+{% if error %}
+<script>
+    $(document).ready(function()
+    {
+           $('#exampleModal').modal('show');
+        
+    });
+</script>
+{% endif %}
+</body>
+
+</html>

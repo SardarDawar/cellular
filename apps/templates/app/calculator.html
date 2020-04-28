@@ -1,0 +1,108 @@
+{% extends 'Base.html' %}
+
+
+{% block title %} Calculator {% endblock %}
+
+
+<style>
+@import compass;
+
+.promotion
+{   
+   top: 5px;
+   display: block;
+   padding: 1.5% 1.8% ;
+   padding-top: 10px;
+   margin-top: 10px;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border-radius: 60%;
+   width: 270px;
+   height: 270px;
+   background: rgb(129, 105, 105)}
+
+em, strong 
+{   
+   font-size: 1.3em;}
+
+</style>
+
+{% block content %}
+
+    <div class="mx-auto" style="width:900px;">
+        <div class="card mt-5" style="width: 60rem;">
+            <div class="card-body">
+              <form action="{% url 'Calculator' %}" method="POST" id="calculatorForm">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col ml-3">
+                        <div class="row">
+                            <h5 class="card-title">Current Carrier</h5>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary active mr-2">
+                                  <input type="radio" name="options" id="option1" value="option1" data-url="3210"> Verizon
+                                  
+                                </label>
+                                <label class="btn btn-outline-secondary mr-2">
+                                  <input type="radio" name="options" id="option2" value="option2" data-url="321"> AT & T
+                                  
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                  <input type="radio" name="options" id="option3" value="option3" data-url="231"> Other
+                                
+                                </label>
+                              </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <h5 class="card-title">Number of users on the account</h5>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary active mr-2">
+                                  <input type="radio" name="options" id="option1"> 1
+                                </label>
+                                <label class="btn btn-outline-secondary mr-2">
+                                  <input type="radio" name="options" id="option2"> 2                                
+                                </label>
+                                <label class="btn btn-outline-secondary mr-2">
+                                  <input type="radio" name="options" id="option3"> 3
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input type="radio" name="options" id="option3"> 4
+                                  </label>
+                              </div>
+                            
+                        </div>
+                        <div class="row mt-2">
+                            <h5 class="card-title">Total Plan Cost (US Dollars)</h5>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-5 pl-5">
+                              <input type="number" class="form-control" >
+                            </div>
+                    </div>
+                    
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="card bg-success text-white font-weight-bold text-center pt-0" style="width:300px !important; height: 300px !important; border-radius: 50% !important;">
+                          <div class="card-body mt-5 text-center" >
+                            <h4 class="card-title text-white mb-5">Savings</h4>
+                            <h4 class="card-title text-white"> $21231321/yr</h4>
+                           
+                          </div>
+                            
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

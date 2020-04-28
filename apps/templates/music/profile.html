@@ -1,0 +1,56 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block title %} {{ user.username }}  {% endblock %}
+
+
+
+{% block register %}
+<div class="register-login-area">
+                            
+        <a href="{% url 'profile' request.user.username  %}" class="btn active">{{ request.user.username }}</a>
+        <a href="{% url 'logout' %}" class="btn">logout</a>  
+    
+    </div>
+{% endblock  %}
+
+
+{% block content %}
+
+
+<div class="mx-auto" style="width: 500px;">
+    <div class="card" style="width:30rem;">
+        
+        <div class="card-header">
+            <h6>{{ user.username }}</h6>
+        </div>
+        {% if message %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong> Does Not Exist
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        {% endif %}
+        <div class="container">
+            
+            {% if request.user.is_authenticated %}
+                {% if user.first_name %}
+                    <p>First Name : {{ user.first_name }}</p>
+                {% endif %}
+                {% if user.last_name %}
+                    <p>Last Name : {{ user.last_name }}</p>
+                {% endif %}
+                {% if user.email %}
+                    <p>Email ID : {{ user.email }}
+                {% endif %}
+                {%  if contactNumber %}
+                    <p>Contact Number : {{ contactNumber }}</p>
+                {%  endif %}
+            {% endif %}
+        </div>
+        {% if editProfile %}
+        <a href="{% url 'edit_profile' %}" class="list-group-item list-group-item-action active text-white bg-dark"><center>Edit Profile</center></a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

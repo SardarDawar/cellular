@@ -1,0 +1,62 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+{% if request.user.is_authenticated %}
+
+  
+  
+  <div class="sidenav">
+    <br> <br> 
+      <a class="nav-link {% if section == 'editProfile' %}active{% endif %} " href="{% url 'edit_profile' %}">
+        <span class="fa fa-edit"></span>
+        Edit Profile
+        {% if section == 'editProfile' %}
+        <span class="sr-only">(current)</span>
+        {% endif %}
+      </a>
+    <a class="nav-link" href="{% url 'plan' %}">
+        <span class="fa fa-list"></span>
+           Owner Plans
+      </a>
+      <a class="nav-link" href="{% url 'search' %}">
+        <span class="fa fa-search"></span>
+           Search 
+      </a>
+      <a class="nav-link" href="{% url 'Plans' %}">
+        <span class="fa fa-paper-plane" ></span>
+           My Plans 
+      </a>
+    
+    
+  
+  </div>
+  
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+
+
+      {% block content2 %}
+      {% endblock %}
+
+    </main>
+    {% endif %}
+
+
+
+    <script>
+      $(document).ready(function()
+      {
+          $(".form-control").css("border-radius", "0px");
+          $(".form-control").attr("autocomplete", "off");
+      });
+
+  </script>
+
+
+
+
+    {% endblock %}

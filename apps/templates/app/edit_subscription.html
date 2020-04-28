@@ -1,0 +1,132 @@
+{% extends 'Base.html' %}
+{% load humanize %}
+
+{% block title %} Edit A Subscription {% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+    .wr-200{
+        width: 300px !important;
+    }
+</style>
+
+<div class="mx-auto" style="width:900px;">
+    <div class="card mt-5 mb-5" style="width: 60rem;">
+        <div class="card-body">
+            <h5 class="card-title alert-warning p-3">Subscription : {{ subs.plan.plan_name }}</h5>
+            <p class="card-text font-weight-normal">Family Live Since : {{ subs.created_at }}</p>
+            <p class="card-title font-weight-bold" id="payment" style="font-size: 20px;" data="{{ plan.currently_monthly_payment_per_line }}">${{ plan.currently_monthly_payment_per_line|intcomma }}</p>
+            {% if subs.plan.linkWeb %}
+                <p class="card-text">Please visit : <a href="{{ subs.plan.linkWeb }}">{{ subs.plan.linkWeb }}</a> for full details</p>
+            {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Info</h4>
+                        <hr>
+                        <p class="mb-0">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+       
+
+        <div class="col mb-2">
+            <div class="row mb-2">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-secondary wr-200">Current Family Size : {{ subs.plan.total_slots }}</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-secondary wr-200">Open Slots: {{ total }} </button>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-secondary wr-200">Payment Date: {{ subs.plan.monthly_payment_date }} of each month</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-secondary wr-200">Contact Support</button>
+                </div>
+            </div>
+            
+            
+        </div>
+
+            <form action="." method="POST">
+
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Number of Slots</label>
+
+                    <select class="form-control" id="exampleFormControlSelect1" name="number_of_slots" >
+                      {% for i in slots %}
+                        <option value="{{ i }}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+                    <small id="emailHelp" class="form-text text-muted">This estimate does not include any fees and taxes that you may incure with the carrier.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleForm">Monthly Estimation</label>
+                    <p class="card-title font-weight-bold">${{ plan.currently_monthly_payment_per_line|intcomma }}pp/month</p>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleForm">Service Fees</label>
+                    <p class="card-title font-weight-bold">This fees allow us to keep the lights on so that we can continue  providing you the savings.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleForm">Total</label>
+                    <p class="card-title font-weight-bold" style="font-size: 20px;" id="total"  data="{{ plan.currently_monthly_payment_per_line }}">${{ plan.currently_monthly_payment_per_line|intcomma }}</p>
+                    <small id="emailHelp" class="form-text text-muted">You'll be biled this amount each month.</small>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="exampleForm" class="font-weight-bold">Ratings</label>
+                    <p class="card-text">
+                        Rating  :   Family Rating 5/5. No Issues. One Time Payment
+                    </p>
+                    
+                  </div>
+
+                    {% if subs.plan.notes %}
+                  <div class="form-group">
+                    <label for="exampleForm" class="font-weight-bold">Additionnal Notes</label>
+                    <p class="card-text">
+                        {{ subs.plan.notes }}
+                    </p>
+                    
+                  </div>
+                  {% endif %}
+
+
+                  {% if subs.plan.get_contact %}
+                  <div class="form-group">
+                    <label for="exampleForm" class="font-weight-bold">Contact Information</label>
+                    <p class="card-text">
+                        {{ subs.plan.get_contact }}
+                    </p>
+                    
+                  </div>
+                  {% endif %}
+
+
+                  <div class="form-group">
+                    <button  class="btn btn-danger" type="submit">Edit</button>
+                    
+                  </div>
+                  
+                  
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
